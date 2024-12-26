@@ -1,0 +1,13 @@
+django
+django-cors-headers
+djangorestframework
+drf-spectacular
+transformers
+torch
+datasets
+python-dotenv
+cryptography
+redis 
+celery
+flower
+loguru

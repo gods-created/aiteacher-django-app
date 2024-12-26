@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: AITeacher API
+  version: 0.0.1
+  description: AITeacher API description
+paths:
+  /api/ai/send_question/:
+    post:
+      operationId: ai_send_question_create
+      tags:
+      - ai
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AIQuestion'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AIQuestion'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AIQuestion'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIQuestion'
+          description: ''
+  /api/ai/start_training_model/:
+    post:
+      operationId: ai_start_training_model_create
+      tags:
+      - ai
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AITraining'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AITraining'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AITraining'
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AITraining'
+          description: ''
+  /api/api_key/:
+    post:
+      operationId: api_key_create
+      tags:
+      - api_key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Key'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Key'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Key'
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Key'
+          description: ''
+  /api/api_key/{id}/:
+    delete:
+      operationId: api_key_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this key.
+        required: true
+      tags:
+      - api_key
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    AIQuestion:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 50
+        question:
+          type: string
+          maxLength: 1000
+          minLength: 1
+      required:
+      - email
+      - question
+    AITraining:
+      type: object
+      properties:
+        data:
+          default: []
+    Key:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        api_key:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - api_key
+      - created_at
+      - id
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  app:
+    build: ./
+    restart: always
+    ports:
+      - 8001:8001
+    environment:
+      - EMAIL_HOST_USER = 'tersk.bo@gmail.com'
+      - EMAIL_HOST_PASSWORD = 'pjbhsnvmzneevvul'
+      - MODEL_DIR = './model'
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - 6379:6379
